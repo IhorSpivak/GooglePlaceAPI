@@ -66,7 +66,6 @@ public class WeatherInfoAdapter extends BaseAdapter {
         Drawable drawable = resources.getDrawable(resourceId);
 
         imageView.setImageDrawable(drawable);
-        textView.setText(String.valueOf(temp));
 
         return grid;
     }

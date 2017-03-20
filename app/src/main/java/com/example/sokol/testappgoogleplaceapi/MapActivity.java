@@ -27,7 +27,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         longitude = intent.getDoubleExtra(MainActivity.KEY_LONGITUDE, 0.0);
         latitude = intent.getDoubleExtra(MainActivity.KEY_LATITUDE, 0.0);
 
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
