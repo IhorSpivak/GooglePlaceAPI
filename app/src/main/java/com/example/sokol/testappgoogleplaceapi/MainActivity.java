@@ -26,7 +26,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    public Place place;
     public GoogleApiClient mGoogleApiClient;
     private int PLACE_PICKER_REQUEST = 1;
     public static final String KEY_CITY = "city";
@@ -83,13 +82,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
                 String city = addresses.get(0).getLocality();
-                String contryCode = addresses.get(0).getCountryCode();
+                String countryCode = addresses.get(0).getCountryCode();
                 double longitude = place.getLatLng().longitude;
                 double latitude = place.getLatLng().latitude;
 
                 Intent intent = new Intent(this, WeatherActivity.class);
                 intent.putExtra(KEY_CITY, city);
-                intent.putExtra(KEY_COUNTRY_CODE, contryCode);
+                intent.putExtra(KEY_COUNTRY_CODE, countryCode);
                 intent.putExtra(KEY_LATITUDE, latitude);
                 intent.putExtra(KEY_LONGITUDE, longitude);
                 startActivity(intent);

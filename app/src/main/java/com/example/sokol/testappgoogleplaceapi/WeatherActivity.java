@@ -66,8 +66,8 @@ import java.net.URL;
 
         city = intent.getStringExtra(MainActivity.KEY_CITY);
         countryCode = intent.getStringExtra(MainActivity.KEY_COUNTRY_CODE);
-        longitude = Double.parseDouble(intent.getStringExtra(MainActivity.KEY_LONGITUDE));
-        latitude = Double.parseDouble(intent.getStringExtra(MainActivity.KEY_LATITUDE));
+        longitude = intent.getDoubleExtra(MainActivity.KEY_LONGITUDE, 0.0);
+        latitude = intent.getDoubleExtra(MainActivity.KEY_LATITUDE, 0.0);
 
         String finalUrl = BASE_URL + QUESTION_MARK + Q + EQUALS
                 + city + COMA + countryCode + AND + APPID + EQUALS + API_KEY;
