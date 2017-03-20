@@ -26,8 +26,13 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private GoogleApiClient mGoogleApiClient;
+    public Place place;
+    public GoogleApiClient mGoogleApiClient;
     private int PLACE_PICKER_REQUEST = 1;
+    public static final String KEY_CITY = "city";
+    public static final String KEY_COUNTRY_CODE = "countryCode";
+    public static final String KEY_LATITUDE = "latitude";
+    public static final String KEY_LONGITUDE = "longitude";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onStop();
     }
 
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -77,12 +81,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     e.printStackTrace();
                 }
 
+
                 String city = addresses.get(0).getLocality();
                 String contryCode = addresses.get(0).getCountryCode();
+                double longitude = place.getLatLng().longitude;
+                double latitude = place.getLatLng().latitude;
 
                 Intent intent = new Intent(this, WeatherActivity.class);
-                intent.putExtra("City", city);
-                intent.putExtra("ContryCode", contryCode);
+                intent.putExtra(KEY_CITY, city);
+                intent.putExtra(KEY_COUNTRY_CODE, contryCode);
+                intent.putExtra(KEY_LATITUDE, latitude);
+                intent.putExtra(KEY_LONGITUDE, longitude);
                 startActivity(intent);
             }
         }
