@@ -56,7 +56,8 @@ public class WeatherInfoAdapter extends BaseAdapter {
         ImageView imageView = (ImageView) grid.findViewById(R.id.image);
         TextView textView = (TextView) grid.findViewById(R.id.temp);
         String iconName = weatherList.get(position).getWeather().get(0).getIcon();
-        double temp = weatherList.get(position).getMain().getTemp();
+        int temp = (int)weatherList.get(position).getMain().getTemp() - 273;
+        textView.setText(String.valueOf(temp) + " \u00b0");
 
         Resources resources = mContext.getResources();
 

@@ -17,7 +17,7 @@ public class WeatherInfo {
         }
 
         public void setTemp(double temp) {
-            this.temp = temp;
+            this.temp = temp - 273.15;
         }
     }
 

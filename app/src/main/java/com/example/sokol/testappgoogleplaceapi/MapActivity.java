@@ -13,10 +13,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private LatLng loacation;
+    private LatLng latLng;
     private double longitude;
     private double latitude;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +36,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap map) {
 
-        loacation = new LatLng(latitude, longitude);
-        map.addMarker(new MarkerOptions().position(loacation));
-        map.moveCamera(CameraUpdateFactory.newLatLng(loacation));
+        latLng = new LatLng(latitude, longitude);
+        map.addMarker(new MarkerOptions().position(latLng));
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 }
