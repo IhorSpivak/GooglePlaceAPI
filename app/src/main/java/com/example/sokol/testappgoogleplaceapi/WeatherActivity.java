@@ -17,12 +17,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Sokol on 18.03.2017.
  */
 
-    public class WeatherActivity extends Activity {
+public class WeatherActivity extends Activity {
     private String city;
     private String countryCode;
     private double longitude;
@@ -33,13 +38,6 @@ import java.net.URL;
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
 
-    private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/forecast";
-    private static final String QUESTION_MARK = "?";
-    private static final String Q = "q";
-    private static final String EQUALS = "=";
-    private static final String COMA = ",";
-    private static final String AND = "&";
-    private static final String APPID = "appid";
     private static final String API_KEY = "e54a785c8d34d62979f862af20da0778";
 
     @Override
@@ -47,20 +45,22 @@ import java.net.URL;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
-            showOnMap = (Button) findViewById(R.id.showOnMap);
-            showOnMap.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (v.getId()){
-                        case R.id.showOnMap:
-                            Intent intent = new Intent(WeatherActivity.this, MapActivity.class);
-                            intent.putExtra(KEY_LATITUDE, latitude);
-                            intent.putExtra(KEY_LONGITUDE, longitude);
-                            startActivity(intent);
-                    }
+        gridview = (GridView) findViewById(R.id.gridview);
 
+        showOnMap = (Button) findViewById(R.id.showOnMap);
+        showOnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.showOnMap:
+                        Intent intent = new Intent(WeatherActivity.this, MapActivity.class);
+                        intent.putExtra(KEY_LATITUDE, latitude);
+                        intent.putExtra(KEY_LONGITUDE, longitude);
+                        startActivity(intent);
                 }
-            });
+
+            }
+        });
 
         Intent intent = getIntent();
 
@@ -69,54 +69,24 @@ import java.net.URL;
         longitude = intent.getDoubleExtra(MainActivity.KEY_LONGITUDE, 0.0);
         latitude = intent.getDoubleExtra(MainActivity.KEY_LATITUDE, 0.0);
 
-        String finalUrl = BASE_URL + QUESTION_MARK + Q + EQUALS
-                + city + COMA + countryCode + AND + APPID + EQUALS + API_KEY;
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
 
-        new WeatherTask().execute(finalUrl);
+        String cityAndCountryCode = city + "," + countryCode;
 
-        gridview = (GridView) findViewById(R.id.gridview);
-    }
+        Call<WeatherInfo> call = apiService.getWeatherInfo(cityAndCountryCode, API_KEY);
+        call.enqueue(new Callback<WeatherInfo>() {
+            @Override
+            public void onResponse(Call<WeatherInfo> call, Response<WeatherInfo> response) {
+                List<WeatherInfo.WeatherDetails> weatherDetailsList = response.body().getList();
 
-    private class WeatherTask extends AsyncTask<String, Void, String> {
-
-        public WeatherTask() {
-        }
-
-        protected String doInBackground(String... addresses) {
-            InputStream in = null;
-            StringBuilder sb = new StringBuilder();
-            try {
-                URL url = new URL(addresses[0]);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.connect();
-                in = conn.getInputStream();
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (in != null)
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                gridview.setAdapter(new WeatherInfoAdapter(WeatherActivity.this, weatherDetailsList));
             }
-            return sb.toString();
-        }
 
-            protected void onPostExecute(String result) {
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
-                WeatherInfo weatherInfo = gson.fromJson(result, WeatherInfo.class);
+            @Override
+            public void onFailure(Call<WeatherInfo> call, Throwable t) {
 
-                gridview.setAdapter(new WeatherInfoAdapter(WeatherActivity.this, weatherInfo.getList()));
             }
-        }
+        });
     }
+}
