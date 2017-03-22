@@ -1,4 +1,4 @@
-package com.example.sokol.testappgoogleplaceapi;
+package com.example.sokol.testappgoogleplaceapi.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

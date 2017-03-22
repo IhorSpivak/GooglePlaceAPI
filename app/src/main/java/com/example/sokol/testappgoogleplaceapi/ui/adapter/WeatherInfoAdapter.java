@@ -1,14 +1,16 @@
-package com.example.sokol.testappgoogleplaceapi;
+package com.example.sokol.testappgoogleplaceapi.ui.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.sokol.testappgoogleplaceapi.R;
+import com.example.sokol.testappgoogleplaceapi.model.WeatherInfo;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -59,13 +61,13 @@ public class WeatherInfoAdapter extends BaseAdapter {
         int temp = (int)weatherList.get(position).getMain().getTemp() - 273;
         textView.setText(String.valueOf(temp) + " \u00b0");
 
-        Resources resources = mContext.getResources();
+        String iconUrl = "http://openweathermap.org/img/w/" + iconName + ".png";
 
-        int resourceId = resources.getIdentifier("a" + iconName, "drawable",
-                mContext.getPackageName());
-        Drawable drawable = resources.getDrawable(resourceId);
-
-        imageView.setImageDrawable(drawable);
+        Picasso.with(mContext)
+                .load(iconUrl)
+                .placeholder(R.mipmap.ic_launcher)
+                .fit()
+                .into(imageView);
 
         return grid;
     }

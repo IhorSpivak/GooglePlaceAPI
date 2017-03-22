@@ -1,4 +1,4 @@
-package com.example.sokol.testappgoogleplaceapi;
+package com.example.sokol.testappgoogleplaceapi.model;
 
 import java.util.List;
 

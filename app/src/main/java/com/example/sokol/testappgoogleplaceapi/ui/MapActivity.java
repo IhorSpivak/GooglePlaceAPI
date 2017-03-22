@@ -1,9 +1,11 @@
-package com.example.sokol.testappgoogleplaceapi;
+package com.example.sokol.testappgoogleplaceapi.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.sokol.testappgoogleplaceapi.R;
+import com.example.sokol.testappgoogleplaceapi.ui.MainActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

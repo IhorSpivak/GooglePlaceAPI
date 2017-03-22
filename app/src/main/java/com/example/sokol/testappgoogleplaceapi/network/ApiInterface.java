@@ -1,4 +1,6 @@
-package com.example.sokol.testappgoogleplaceapi;
+package com.example.sokol.testappgoogleplaceapi.network;
+
+import com.example.sokol.testappgoogleplaceapi.model.WeatherInfo;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
